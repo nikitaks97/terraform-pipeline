@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
 # Existing security group
 resource "aws_security_group" "elb_sg" {
   name        = "elb-sg"
