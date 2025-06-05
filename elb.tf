@@ -2,7 +2,7 @@
 resource "aws_security_group" "elb_sg" {
   name        = "elb-sg"
   description = "Allow HTTP"
-  vpc_id      = "your-vpc-id"
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port   = 80
@@ -39,7 +39,7 @@ resource "aws_elb" "classic_lb" {
     unhealthy_threshold = 2
   }
 
-  instances                   = [aws_instance.web_vm[*].id]
+  instances = aws_instance.web_vm[*].id
   security_groups             = [aws_security_group.elb_sg.id]
   cross_zone_load_balancing  = true
   idle_timeout               = 60

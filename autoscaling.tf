@@ -3,7 +3,7 @@ resource "aws_launch_template" "example" {
   image_id      = "ami-0f9de6e2d2f067fca" # Replace with a valid AMI ID
   instance_type = "t2.micro"
 
-  key_name = "k3s_key.pem" # Replace with your key pair name
+  key_name = "k3s_key" # Replace with your key pair name
 
   network_interfaces {
     associate_public_ip_address = true

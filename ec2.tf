@@ -2,7 +2,7 @@ resource "aws_instance" "web_vm" {
   count         = 3  # Change this to the number of instances you want
   ami           = "ami-0f9de6e2d2f067fca" # Replace with valid AMI
   instance_type = "t2.micro"
-  key_name      = "k3s_key.pem"
+  key_name      = "k3s_key"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
 
   tags = {
@@ -20,7 +20,7 @@ variable "ingress_rules" {
 resource "aws_security_group" "web_sg" {
   name        = "web-sg"
   description = "Allow HTTP/HTTPS/SSH"
-  vpc_id      = "your-vpc-id"
+  vpc_id      = aws_vpc.main.id
 }
 
 resource "aws_security_group_rule" "ingress" {

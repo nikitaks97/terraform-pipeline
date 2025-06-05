@@ -7,7 +7,7 @@ variable "aws_region" {
 variable "vpc_cidr" {
   description = "vpc cidr block"
   type        = string
-  default     = "us-east-1"
+  default     = "10.0.0.0/16"
 }
 
 variable "public_subnet_cidr" {
