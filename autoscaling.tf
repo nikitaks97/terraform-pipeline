@@ -1,5 +1,5 @@
 resource "aws_launch_template" "example" {
-  name_prefix   = "tf"
+  name_prefix   = "tft"
   image_id      = "ami-0f9de6e2d2f067fca" # Replace with a valid AMI ID
   instance_type = "t2.micro"
 

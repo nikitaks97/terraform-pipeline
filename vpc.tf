@@ -35,7 +35,7 @@ resource "aws_internet_gateway" "gw" {
     Name = "igw-tf"
   }
 }
-resource "aws_route_table" "example" {
+resource "aws_route_table" "rtb-tf" {
   vpc_id = aws_vpc.main.id
   tags = {
     Name = "rtb-tf"
@@ -43,9 +43,9 @@ resource "aws_route_table" "example" {
 }
 
 resource "aws_route" "r" {
-  route_table_id            = aws_route_table.rtb-tf.id
+  route_table_id            = aws_route_table.example.id
   destination_cidr_block    = "0.0.0.0/0"
-   gateway_id = aws_internet_gateway.gw.id
+  gateway_id = aws_internet_gateway.gw.id
 }
 
 resource "aws_route_table_association" "public" {
