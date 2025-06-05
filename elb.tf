@@ -22,7 +22,7 @@ resource "aws_security_group" "elb_sg" {
 # Classic Load Balancer
 resource "aws_elb" "classic_lb" {
   name               = "classic-web-lb"
-  availability_zones = ["us-east-1a", "us-east-1b"]
+  subnets            = [aws_subnet.public.id, aws_subnet.private.id]
 
   listener {
     instance_port     = 80
@@ -45,6 +45,8 @@ resource "aws_elb" "classic_lb" {
   idle_timeout               = 60
   connection_draining        = true
   connection_draining_timeout = 300
+  
+  depends_on = [aws_vpc.main, aws_security_group.elb_sg]
 
   tags = {
     Name = "classic-lb"
