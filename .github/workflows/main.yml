@@ -1,0 +1,10 @@
+name: create infra on aws using terraform 
+on: [push,pull_request]
+jobs:
+ terraform:
+  runs-on: ubuntu-latest
+  steps:
+  - name: checkout code
+    uses: actions/checkout@v4
+  - name: Install hashicorp
+    uses:
