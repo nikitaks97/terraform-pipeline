@@ -18,10 +18,14 @@ jobs:
           aws-region: us-east-1
   - name: initialize terraform
     run: terraform init
-  - name: terraform plan -out=tfplan
-    run: terraform plan
-  - name: terraform lint
-    run: terraform fmt -check -recursive
+  #- name: terraform lint
+  #  run: terraform fmt -check -recursive
+  - name: Terraform Format
+    run: terraform fmt -recursive
+  - name: Terraform Format Check
+    run: terraform fmt -check
+  - name: terraform plan 
+    run: terraform plan -out=tfplan
   - name: terraform apply
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     run: terraform apply -auto-approve tfplan
