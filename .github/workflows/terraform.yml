@@ -18,20 +18,45 @@ jobs:
           aws-region: us-east-1
   - name: initialize terraform
     run: terraform init
-  #- name: terraform lint
-  #  run: terraform fmt -check -recursive
   - name: Terraform Format
     run: terraform fmt -recursive
   - name: Terraform Format Check
     run: terraform fmt -check
+  - name: Checkov Scan
+    uses: bridgecrewio/checkov-action@master
+    with:
+      directory: .
+
   - name: terraform plan 
     run: terraform plan -out=tfplan
+  - name: Show Terraform plan
+    run: terraform show -no-color tfplan
+  - name: Wait for user to review plan
+    run: |
+      echo "Waiting 2 minutes for user to review the Terraform plan in the logs and artifact..."
+      sleep 120
+  - name: Upload Terraform plan for review
+    uses: actions/upload-artifact@v4
+    with:
+      name: tfplan
+      path: tfplan
+  - name: Confirm before apply
+    id: confirm_apply
+    run: |
+      echo "Please review the Terraform plan artifact in the Actions tab before proceeding."
+      echo "Do you want to apply the Terraform plan? (yes/no)"
+      read answer
+      if [ "$answer" != "yes" ]; then
+        echo "User chose not to apply. Exiting."
+        exit 1
+      fi
+    shell: bash
   - name: terraform apply
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     run: terraform apply -auto-approve tfplan
-    
-    
 
-         
-  
-  
+
+
+
+
+
