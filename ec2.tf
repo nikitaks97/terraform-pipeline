@@ -4,7 +4,7 @@ variable "ingress_rules" {
       from_port   = 22
       to_port     = 22
       protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = ["0.0.0.0/0"]  # Replace with your IP for better security
     }
     http = {
       from_port   = 80
@@ -36,11 +36,21 @@ resource "aws_security_group_rule" "ingress" {
   protocol          = each.value.protocol
   security_group_id = aws_security_group.web_sg.id
   cidr_blocks       = each.value.cidr_blocks
+  description       = "Allow ${each.key}"
+}
+
+resource "aws_security_group_rule" "egress" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.web_sg.id
 }
 
 resource "aws_instance" "web_vm" {
-  count                  = 3  # Change this to the number of instances you want
-  ami                    = "ami-0f9de6e2d2f067fca" # Replace with valid AMI
+  count                  = 3
+  ami                    = "ami-0f9de6e2d2f067fca"
   instance_type          = "t2.micro"
   key_name               = "k3s_key"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
