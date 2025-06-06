@@ -6,8 +6,14 @@ resource "aws_launch_template" "example" {
   key_name = "k3s_key" # Replace with your key pair name
 
   network_interfaces {
+    #checkov:skip=CKV_AWS_88:It needs to be set to true for public IP
     associate_public_ip_address = true
     security_groups             = [aws_security_group.web_sg.id]
+  }
+
+  metadata_options {
+    http_tokens   = "required"
+    http_endpoint  = "enabled"
   }
 
   tag_specifications {

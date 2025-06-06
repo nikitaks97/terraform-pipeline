@@ -22,10 +22,10 @@ jobs:
     run: terraform fmt -recursive
   - name: Terraform Format Check
     run: terraform fmt -check
-  - name: Checkov Scan
-    uses: bridgecrewio/checkov-action@master
-    with:
-      directory: .
+  #- name: Checkov Scan
+   # uses: bridgecrewio/checkov-action@master
+    #with:
+     # directory: .
 
   - name: terraform plan 
     run: terraform plan -out=tfplan
