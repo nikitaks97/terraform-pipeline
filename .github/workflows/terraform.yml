@@ -11,7 +11,7 @@ jobs:
     with:
           terraform_version: 1.2.0
   - name: configure aws credentials
-    uses: aws-actions/configure-aws-credentials@v4
+    uses: aws-actions/configure-aws-credentials@v3
     with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -54,8 +54,17 @@ jobs:
   - name: terraform apply
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     run: terraform apply -auto-approve tfplan
-
-
+  - name: terraform destroy
+    if: github.ref == 'refs/heads/main' && github.event_name == 'pull_request'
+    run: terraform destroy -auto-approve tfplan
+  - name: Cleanup
+    run: |
+      echo "Cleaning up Terraform state files and plan artifacts..."
+      rm -f tfplan
+      rm -rf .terraform
+      echo "Cleanup complete."
+    
+    
 
 
 
