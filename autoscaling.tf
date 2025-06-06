@@ -13,7 +13,7 @@ resource "aws_launch_template" "example" {
 
   metadata_options {
     http_tokens   = "required"
-    http_endpoint  = "enabled"
+    http_endpoint = "enabled"
   }
 
   tag_specifications {
@@ -24,6 +24,7 @@ resource "aws_launch_template" "example" {
     }
   }
 }
+
 # Auto Scaling Group
 resource "aws_autoscaling_group" "asg" {
   name                      = "example-asg"

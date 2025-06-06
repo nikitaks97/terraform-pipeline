@@ -24,12 +24,12 @@ resource "aws_security_group_rule" "ingress" {
 }
 
 resource "aws_instance" "web_vm" {
-  count                   = 3  # Change this to the number of instances you want
-  ami                     = "ami-0f9de6e2d2f067fca" # Replace with valid AMI
-  instance_type           = "t2.micro"
-  key_name                = "k3s_key"
-  vpc_security_group_ids  = [aws_security_group.web_sg.id]
-  subnet_id               = aws_subnet.public.id
+  count                  = 3  # Change this to the number of instances you want
+  ami                    = "ami-0f9de6e2d2f067fca" # Replace with valid AMI
+  instance_type          = "t2.micro"
+  key_name               = "k3s_key"
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  subnet_id              = aws_subnet.public.id
 
   tags = {
     Name = "tf-vm-${count.index + 1}"
