@@ -19,8 +19,8 @@ resource "aws_security_group" "elb_sg" {
 }
 
 resource "aws_elb" "classic_lb" {
-  name    = "classic-web-lb"
-  subnets = [aws_subnet.public.id, aws_subnet.private.id]
+  name               = "classic-web-lb"
+  subnets            = [aws_subnet.public.id, aws_subnet.private.id]
 
   listener {
     instance_port     = 80
@@ -37,13 +37,13 @@ resource "aws_elb" "classic_lb" {
     unhealthy_threshold = 2
   }
 
-  instances                    = aws_instance.web_vm[*].id
-  security_groups              = [aws_security_group.elb_sg.id]
-  cross_zone_load_balancing    = true
-  idle_timeout                 = 60
-  connection_draining          = true
-  connection_draining_timeout  = 300
-  depends_on                   = [aws_vpc.main, aws_security_group.elb_sg]
+  instances                  = aws_instance.web_vm[*].id
+  security_groups            = [aws_security_group.elb_sg.id]
+  cross_zone_load_balancing  = true
+  idle_timeout               = 60
+  connection_draining        = true
+  connection_draining_timeout = 300
+  depends_on                 = [aws_vpc.main, aws_security_group.elb_sg]
 
   tags = {
     Name = "classic-lb"
