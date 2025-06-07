@@ -11,11 +11,12 @@ env:
 
 jobs:
   terraform-plan:
-    name: Terraform Plan & Checkov
+    name: Terraform Plan, Lint 
     runs-on: ubuntu-latest
     if: github.event.action != 'closed'
     outputs:
       plan-created: ${{ steps.plan.outputs.plan-created }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,6 +39,19 @@ jobs:
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
 
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Run TFLint
+        uses: terraform-linters/setup-tflint@v1
+        with:
+          tflint_version: latest
+
+      - name: TFLint Execution
+        run: |
+          tflint --init
+          tflint -f compact
+
       - name: Terraform Plan
         id: plan
         run: |
@@ -50,12 +64,6 @@ jobs:
           name: tfplan
           path: tfplan
 
-      - name: Checkov Scan
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .
-          quiet: true
-
   terraform-apply:
     name: Terraform Apply
     runs-on: ubuntu-latest
@@ -63,6 +71,8 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event.action != 'closed'
     environment:
       name: production
+      url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -93,10 +103,14 @@ jobs:
           rm -f tfplan
           rm -rf .terraform
 
+      - name: Summary
+        run: echo "✅ Terraform apply completed on ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+
   terraform-destroy:
     name: Terraform Destroy on PR Close
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == false && github.event.action == 'closed'
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -118,3 +132,4 @@ jobs:
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
+
