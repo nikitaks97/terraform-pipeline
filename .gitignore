@@ -34,3 +34,4 @@ Thumbs.db
 
 # Ignore backend config if needed
 backend.tfvars
+plan
