@@ -37,3 +37,4 @@ backend.tfvars
 plan
 tflint.exe
 tflint.zip
+tfplan

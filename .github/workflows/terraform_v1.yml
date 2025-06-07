@@ -108,6 +108,7 @@ jobs:
 
   terraform-destroy:
     name: Terraform Destroy on PR Close
+    needs: terraform-apply
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == false && github.event.action == 'closed'
 
