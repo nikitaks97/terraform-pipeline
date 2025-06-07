@@ -1,0 +1,3 @@
+terraform format- checks the code for formatting error.
+terraform validate- checks the code for syntax errors.
+terraform tflint- checks the code for issues , vulerabilities and code quality.
