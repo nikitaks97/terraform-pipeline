@@ -96,7 +96,7 @@ jobs:
           path: .
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply tfplan
 
       - name: Cleanup
         run: |
