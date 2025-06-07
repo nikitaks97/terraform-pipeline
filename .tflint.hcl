@@ -5,4 +5,4 @@ plugin "aws" {
 
 config {
   deep_check = true
-}
+}   
