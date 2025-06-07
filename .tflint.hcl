@@ -3,6 +3,4 @@ plugin "aws" {
   region  = "us-east-1"
 }
 
-config {
-  deep_check = true
-}   
+
