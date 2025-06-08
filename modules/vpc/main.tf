@@ -2,9 +2,9 @@ resource "aws_vpc" "main" {
   cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
   tags = merge({
-    Name = var.vpc_name,
+    Name        = var.vpc_name,
     environment = var.environment,
-    owner = var.owner,
+    owner       = var.owner,
     cost_center = var.cost_center
   }, var.extra_tags)
 }
@@ -15,9 +15,9 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
   availability_zone       = var.public_az
   tags = merge({
-    Name = var.public_subnet_name,
+    Name        = var.public_subnet_name,
     environment = var.environment,
-    owner = var.owner,
+    owner       = var.owner,
     cost_center = var.cost_center
   }, var.extra_tags)
 }
@@ -27,9 +27,9 @@ resource "aws_subnet" "private" {
   cidr_block        = var.private_subnet_cidr
   availability_zone = var.private_az
   tags = merge({
-    Name = var.private_subnet_name,
+    Name        = var.private_subnet_name,
     environment = var.environment,
-    owner = var.owner,
+    owner       = var.owner,
     cost_center = var.cost_center
   }, var.extra_tags)
 }
@@ -37,9 +37,9 @@ resource "aws_subnet" "private" {
 resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
   tags = merge({
-    Name = var.igw_name,
+    Name        = var.igw_name,
     environment = var.environment,
-    owner = var.owner,
+    owner       = var.owner,
     cost_center = var.cost_center
   }, var.extra_tags)
 }
@@ -47,9 +47,9 @@ resource "aws_internet_gateway" "gw" {
 resource "aws_route_table" "rtb" {
   vpc_id = aws_vpc.main.id
   tags = merge({
-    Name = var.route_table_name,
+    Name        = var.route_table_name,
     environment = var.environment,
-    owner = var.owner,
+    owner       = var.owner,
     cost_center = var.cost_center
   }, var.extra_tags)
 }

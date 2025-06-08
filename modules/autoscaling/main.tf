@@ -1,10 +1,10 @@
 resource "aws_launch_template" "web" {
-  name_prefix             = var.lt_name_prefix
-  image_id                = var.ami
-  instance_type           = var.instance_type
-  key_name                = var.key_name
-  vpc_security_group_ids  = var.security_group_ids
- # subnet_id             = var.subnet_id
+  name_prefix            = var.lt_name_prefix
+  image_id               = var.ami
+  instance_type          = var.instance_type
+  key_name               = var.key_name
+  vpc_security_group_ids = var.security_group_ids
+  # subnet_id             = var.subnet_id
   metadata_options {
     http_tokens = "required"
   }

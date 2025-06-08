@@ -19,10 +19,10 @@ resource "aws_security_group" "elb_sg" {
 }
 
 resource "aws_elb" "main" {
-  name               = var.elb_name
-  subnets            = var.subnets
-  security_groups    = [aws_security_group.elb_sg.id]
-  instances          = var.instances
+  name                      = var.elb_name
+  subnets                   = var.subnets
+  security_groups           = [aws_security_group.elb_sg.id]
+  instances                 = var.instances
   cross_zone_load_balancing = true
 
   listener {
@@ -40,9 +40,9 @@ resource "aws_elb" "main" {
     timeout             = 3
   }
   tags = merge({
-    Name = var.elb_name,
+    Name        = var.elb_name,
     environment = var.environment,
-    owner = var.owner,
+    owner       = var.owner,
     cost_center = var.cost_center
   }, var.extra_tags)
 }

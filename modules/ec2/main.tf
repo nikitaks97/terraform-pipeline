@@ -34,9 +34,9 @@ resource "aws_instance" "web_vm" {
   subnet_id              = var.subnet_id
 
   tags = merge({
-    Name = "${var.instance_name_prefix}-${count.index + 1}",
+    Name        = "${var.instance_name_prefix}-${count.index + 1}",
     environment = var.environment,
-    owner = var.owner,
+    owner       = var.owner,
     cost_center = var.cost_center
   }, var.extra_tags)
 }
