@@ -79,6 +79,7 @@ variable "route_table_name" {
 variable "ami" {
   description = "AMI ID for EC2/ASG"
   type        = string
+  default = "ami-0f9de6e2d2f067fca"
 }
 
 variable "instance_type" {
@@ -95,6 +96,7 @@ variable "key_name" {
   description = "EC2 key pair name"
   type        = string
   sensitive   = true
+  default     = "k3s_key" # Replace with your key pair name
 }
 
 variable "instance_count" {
@@ -196,11 +198,11 @@ variable "environment" {
 variable "owner" {
   description = "Owner tag for resources"
   type        = string
-  default     = ""
+  default     = "niki"
 }
 
 variable "cost_center" {
   description = "Cost center tag for resources"
   type        = string
-  default     = ""
+  default     = "niki-corps"
 }

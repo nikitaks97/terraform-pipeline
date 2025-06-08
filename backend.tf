@@ -5,6 +5,6 @@ terraform {
     key            = "statefile-0/s3-tf-new"
     region         = "us-east-1"
     encrypt        = true
-    dynamodb_table = "terraform-locks"   # For state locking
+  #  dynamodb_table = "terraform-locks"   # For state locking
   }
 }
