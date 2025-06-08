@@ -151,12 +151,6 @@ variable "elb_name" {
   default     = "tf-elb"
 }
 
-variable "sg_name_elb" {
-  description = "Name for ELB security group"
-  type        = string
-  default     = "elb-sg"
-}
-
 # -------------------
 # Autoscaling Variables
 # -------------------
@@ -188,24 +182,6 @@ variable "desired_capacity" {
   description = "Desired capacity for Auto Scaling Group"
   type        = number
   default     = 2
-}
-
-variable "security_group_ids" {
-  description = "List of security group IDs for autoscaling/launch template"
-  type        = list(string)
-  default     = []
-}
-
-variable "subnet_id" {
-  description = "Subnet ID for autoscaling/launch template"
-  type        = string
-  default     = ""
-}
-
-variable "subnets" {
-  description = "List of subnet IDs for autoscaling group"
-  type        = list(string)
-  default     = []
 }
 
 # -------------------
