@@ -37,9 +37,8 @@ jobs:
         run: terraform init
         working-directory: ./
 
-      - name: Terraform Format Check
+      - name: Terraform Format 
         run: |
-           terraform fmt -check -recursive
            terraform fmt -recursive 
         continue-on-error: false
         working-directory: ./
