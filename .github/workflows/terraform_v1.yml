@@ -35,14 +35,17 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ./
 
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
         continue-on-error: false
+        working-directory: ./
 
       - name: Terraform Validate
         run: terraform validate
         continue-on-error: false
+        working-directory: ./
 
       - name: Run TFLint
         uses: terraform-linters/setup-tflint@v3
@@ -53,12 +56,14 @@ jobs:
         run: |
           tflint --init
           tflint -f compact
+        working-directory: ./
 
       - name: Terraform Plan
         id: plan
         run: |
           terraform plan -var-file=dev.tfvars -out=tfplan
           echo "plan-created=true" >> $GITHUB_OUTPUT
+        working-directory: ./
 
       - name: Check for uncommitted .terraform.lock.hcl changes
         run: |
@@ -67,6 +72,7 @@ jobs:
             git status .terraform.lock.hcl
             exit 1
           fi
+        working-directory: ./
 
       - name: Upload Plan Artifact
         uses: actions/upload-artifact@v4
@@ -100,20 +106,23 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ./
 
       - name: Download Plan Artifact
         uses: actions/download-artifact@v4
         with:
           name: tfplan
-          path: .
+          path: ./
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
+        working-directory: ./
 
       - name: Cleanup
         run: |
           rm -f tfplan
           rm -rf .terraform
+        working-directory: ./
 
       - name: Summary
         run: echo "✅ Terraform apply completed on ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
@@ -142,7 +151,9 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: ./
 
       - name: Terraform Destroy
         run: terraform destroy -auto-approve
+        working-directory: ./
 
