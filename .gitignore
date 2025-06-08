@@ -11,7 +11,7 @@ override.tf.json
 *_override.tf.json
 .terraformrc
 terraform.rc
-.terraform.lock.hcl
+
 
 # Local .env files
 .env*
@@ -34,7 +34,8 @@ Thumbs.db
 
 # Ignore backend config if needed
 backend.tfvars
-plan
+tfplan
 tflint.exe
 tflint.zip
+plan
 
