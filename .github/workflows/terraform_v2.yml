@@ -50,18 +50,30 @@ jobs:
       - name: Run TFLint
         uses: terraform-linters/setup-tflint@v3
         with:
-          tflint_version: latest
-
-      - name: TFLint Execution
+          tflint_version: latest      - name: TFLint Execution
         run: |
           tflint --init
           tflint -f compact
-        working-directory: ./      - name: Terraform Plan
+        working-directory: ./
+        
+      - name: Run Checkov Security Scan
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: ./
+          framework: terraform
+          skip_check: CKV_AWS_272,CKV_AWS_273
+          output_format: github_failed_only
+          quiet: true
+          soft_fail: true
+          download_external_modules: true
+
+      - name: Terraform Plan
         id: plan
         run: |
-          terraform plan -var-file=./dev.tfvars -out=tfplan
+          # Use the full path to the dev.tfvars file
+          terraform plan -var-file="${GITHUB_WORKSPACE}/dev.tfvars" -out=tfplan
           echo "plan-created=true" >> $GITHUB_OUTPUT
-        working-directory: .
+        working-directory: ./
 
       - name: Check for uncommitted .terraform.lock.hcl changes
         run: |
@@ -76,7 +88,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: tfplan
+          path: ./tfplan
+
   terraform-apply:
     name: Terraform Apply
     runs-on: ubuntu-latest
@@ -127,7 +140,6 @@ jobs:
 
   terraform-destroy:
     name: Terraform Destroy on PR Close
-    needs: terraform-apply
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == false && github.event.action == 'closed'
 
@@ -152,6 +164,5 @@ jobs:
         working-directory: ./
 
       - name: Terraform Destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var-file="${GITHUB_WORKSPACE}/dev.tfvars"
         working-directory: ./
-
