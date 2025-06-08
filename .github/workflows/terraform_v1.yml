@@ -38,9 +38,11 @@ jobs:
 
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
+        continue-on-error: false
 
       - name: Terraform Validate
         run: terraform validate
+        continue-on-error: false
 
       - name: Run TFLint
         uses: terraform-linters/setup-tflint@v3
@@ -57,6 +59,14 @@ jobs:
         run: |
           terraform plan -out=tfplan
           echo "plan-created=true" >> $GITHUB_OUTPUT
+
+      - name: Check for uncommitted .terraform.lock.hcl changes
+        run: |
+          if [[ -n $(git status --porcelain .terraform.lock.hcl) ]]; then
+            echo 'Error: .terraform.lock.hcl has uncommitted changes. Please commit the updated lock file.'
+            git status .terraform.lock.hcl
+            exit 1
+          fi
 
       - name: Upload Plan Artifact
         uses: actions/upload-artifact@v4
