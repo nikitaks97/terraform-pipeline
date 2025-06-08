@@ -106,7 +106,7 @@ jobs:
     name: Terraform Apply
     runs-on: ubuntu-latest
     needs: terraform-plan
-    if: github.ref == 'refs/heads/main' && github.event.action != 'closed' || if: github.event.inputs.action == 'apply'
+    if: github.event.inputs.action == 'apply'
 
     environment:
       name: production
@@ -154,7 +154,7 @@ jobs:
   terraform-destroy:
     name: Terraform Destroy on PR Close
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == false && github.event.action == 'closed' || if: github.event.inputs.action == 'destroy'
+    if: github.event.inputs.action == 'destroy'
 
     steps:
       - name: Checkout code
