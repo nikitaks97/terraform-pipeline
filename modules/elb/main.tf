@@ -24,12 +24,14 @@ resource "aws_elb" "main" {
   security_groups    = [aws_security_group.elb_sg.id]
   instances          = var.instances
   cross_zone_load_balancing = true
-  listeners {
+
+  listener {
     instance_port     = 80
     instance_protocol = "http"
     lb_port           = 80
     lb_protocol       = "http"
   }
+
   health_check {
     target              = "HTTP:80/"
     interval            = 30
