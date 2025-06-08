@@ -50,7 +50,8 @@ jobs:
       - name: Run TFLint
         uses: terraform-linters/setup-tflint@v3
         with:
-          tflint_version: latest      - name: TFLint Execution
+          tflint_version: latest     
+      - name: TFLint Execution
         run: |
           tflint --init
           tflint -f compact
