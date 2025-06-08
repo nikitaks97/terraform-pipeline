@@ -1,0 +1,10 @@
+vpc_cidr            = "10.1.0.0/16"
+public_subnet_cidr  = "10.1.1.0/24"
+private_subnet_cidr = "10.1.2.0/24"
+environment         = "staging"
+owner               = "staging-team"
+cost_center         = "2001"
+instance_type       = "t3.small"
+instance_count      = 2
+asg_name            = "staging-asg"
+lt_name_prefix      = "staging-tft"

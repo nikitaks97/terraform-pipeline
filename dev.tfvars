@@ -1,0 +1,10 @@
+vpc_cidr            = "10.0.0.0/16"
+public_subnet_cidr  = "10.0.1.0/24"
+private_subnet_cidr = "10.0.2.0/24"
+environment         = "dev"
+owner               = "devops-team"
+cost_center         = "1001"
+instance_type       = "t3.micro"
+instance_count      = 1
+asg_name            = "dev-asg"
+lt_name_prefix      = "dev-tft"
