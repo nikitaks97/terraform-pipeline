@@ -23,7 +23,6 @@ jobs:
   terraform-plan:
     name: Terraform Plan, Lint 
     runs-on: ubuntu-latest
-    if: github.event.inputs.action != 'destroy' 
     outputs:
       plan-created: ${{ steps.plan.outputs.plan-created }}
 
@@ -152,9 +151,9 @@ jobs:
         run: echo "✅ Terraform apply completed on ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
 
   terraform-destroy:
-    name: Terraform Destroy on PR Close
+    name: Terraform Destroy
     runs-on: ubuntu-latest
-    if: github.event.inputs.action == 'destroy'
+    if: github.event.inputs.action == 'destroy' 
 
     steps:
       - name: Checkout code
