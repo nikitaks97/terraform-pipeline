@@ -23,7 +23,7 @@ jobs:
   terraform-plan:
     name: Terraform Plan, Lint 
     runs-on: ubuntu-latest
-    if: github.event.action != 'closed'
+    if: github.event.inputs.action != 'destroy' 
     outputs:
       plan-created: ${{ steps.plan.outputs.plan-created }}
 
