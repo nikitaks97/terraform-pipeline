@@ -108,7 +108,7 @@ jobs:
     name: Terraform Apply
     runs-on: ubuntu-latest
     needs: terraform-plan
-    if: needs.terraform-plan.outputs.plan-created == 'true' || github.event.inputs.action != 'destroy'
+    if: needs.terraform-plan.outputs.plan-created == 'true' 
 
 
     environment:
@@ -153,32 +153,3 @@ jobs:
 
       - name: Summary
         run: echo "✅ Terraform apply completed on ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-
-  terraform-destroy:
-    name: Terraform Destroy
-    runs-on: ubuntu-latest
-    if: github.event.inputs.action == 'destroy' 
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.2.0
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Terraform Init
-        run: terraform init
-        working-directory: ./
-
-      - name: Terraform Destroy
-        run: terraform destroy -auto-approve -var-file="${GITHUB_WORKSPACE}/prod.tfvars"
-        working-directory: ./
