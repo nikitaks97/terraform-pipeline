@@ -1,5 +1,4 @@
 terraform {
-  required_version = ">= 1.0"
   backend "s3" {
     bucket         = "statebucket-0"
     key            = "statebucket-0/s3-tf-new"
