@@ -2,6 +2,8 @@ name: create infra on aws using terraform
 on: [push,pull_request]
 jobs:
  terraform:
+  permissions:
+    contents: read
   runs-on: ubuntu-latest
   steps:
   - name: checkout code
@@ -17,7 +19,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
   - name: initialize terraform
-    run: terraform init
+    run: terraform init -input=false
   - name: Terraform Format
     run: terraform fmt -recursive
   - name: Terraform Format Check
